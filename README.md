@@ -1,20 +1,39 @@
 # Live Poll Voting System
 
-## Description
-This project is a client-server based live poll voting system developed as part of a Computer Networks project. It allows multiple clients to connect to a central server and cast votes simultaneously.
+## 📌 Description
+A real-time client–server based voting system developed as part of a Computer Networks project. The system allows multiple clients to connect and vote simultaneously, with efficient handling of concurrent requests using UDP socket communication.
 
-## Features
-- Supports multiple clients voting at the same time
-- Real-time vote collection and result updating
-- Client-server communication using socket programming
-- Efficient handling of concurrent connections
+---
 
-## Tech Stack
-- (Add: C / Python / Java)
-- Socket Programming
-- Computer Networks concepts
+## 🚀 Features
+- Supports multiple clients voting at the same time  
+- Real-time vote collection and result processing  
+- Client–server communication using UDP sockets  
+- Detection of duplicate votes  
+- Basic login authentication system  
+- Network statistics tracking (packets, duplicates, loss %)  
 
-## How It Works
-- The server manages incoming client connections and handles vote requests
-- Clients connect to the server and submit their votes
-- The server processes and updates the results in real-time
+---
+
+## 🛠 Tech Stack
+- Python (UDP Socket Programming)  
+- Node.js (Express.js API)  
+- HTML, CSS, JavaScript (Frontend)  
+- Computer Networks Concepts  
+
+---
+
+## ⚙️ System Architecture
+Client (Browser) → Node.js Server → Python UDP Server
+
+- Frontend sends requests to Node server  
+- Node server communicates with Python server via UDP  
+- Python server processes votes and sends response  
+
+---
+
+## ▶️ How to Run
+
+### 1. Start Python Server
+```bash
+python server.py
