@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voting Client</title>
+    <style>
+        body {
+            background: #fff2e9;
+            font-family: "Segoe UI", sans-serif;
+            text-align: center;
+        }
+
+        .box {
+            width: 320px;
+            margin: auto;
+            margin-top: 100px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #b76e22;  
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 95%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #b76e22;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #944f17;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="login" class="box">
+    <h2>Login</h2>
+    <input id="user" placeholder="Username"><br>
+    <input id="pass" type="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<div id="vote" class="box hidden">
+    <h2>Vote Now</h2>
+    <button onclick="vote('A')">Option A</button>
+    <button onclick="vote('B')">Option B</button>
+    <button onclick="vote('C')">Option C</button>
+</div>
+
+<script>
+const SERVER_IP = "172.16.6.141";  // 🔴 PUT YOUR FRIEND'S IP HERE
+
+let currentUser = "";
+
+// LOGIN
+function login() {
+    fetch(`http://${SERVER_IP}:5000/login`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            username: document.getElementById("user").value,
+            password: document.getElementById("pass").value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            currentUser = document.getElementById("user").value;
+            document.getElementById("login").classList.add("hidden");
+            document.getElementById("vote").classList.remove("hidden");
+        } else {
+            alert("Login Failed");
+        }
+    })
+    .catch(() => alert("Server not reachable"));
+}
+
+// VOTE
+function vote(choice) {
+    fetch(`http://${SERVER_IP}:5000/vote`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            username: currentUser,
+            vote: choice
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "duplicate") {
+            alert("You already voted!");
+        } else {
+            alert("Vote submitted!");
+        }
+    })
+    .catch(() => alert("Vote failed"));
+}
+</script>
+
+</body>
+</html>
